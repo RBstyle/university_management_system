@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: uvicorn university_management.main:app --host 0.0.0.0
+    volumes:
+      - .:/university_management
+    ports:
+      - 8008:8000
