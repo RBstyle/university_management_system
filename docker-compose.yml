@@ -7,4 +7,18 @@ services:
     volumes:
       - .:/university_management
     ports:
-      - 8008:8000
+      - 8000:8000
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - .:/docker-entrypoint-initdb.d
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
