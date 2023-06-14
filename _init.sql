@@ -49,8 +49,8 @@ CREATE TABLE "grades" (
 
 CREATE TABLE "groups" (
   "id" integer PRIMARY KEY,
-  "group_name" varchar,
-  "course" varchar,
+  "name" varchar,
+  "students" integer,
   "created_at" timestamp
 );
 
@@ -83,9 +83,7 @@ CREATE TABLE "semesters" (
 
 CREATE TABLE "students" (
   "id" integer PRIMARY KEY,
-  "full_name" varchar,
-  "group" varchar,
-  "created_at" timestamp
+  "full_name" varchar
 );
 
 CREATE TABLE "buildings" (
@@ -107,40 +105,6 @@ CREATE TABLE "training_programs" (
   "created_at" timestamp
 );
 
-ALTER TABLE "courses" ADD FOREIGN KEY ("department") REFERENCES "departments" ("department_name");
 
-ALTER TABLE "departments" ADD FOREIGN KEY ("facult") REFERENCES "faculties" ("facult_name");
 
-ALTER TABLE "exams" ADD FOREIGN KEY ("classroom") REFERENCES "classrooms" ("class_number");
-
-ALTER TABLE "exams" ADD FOREIGN KEY ("buliding") REFERENCES "buildings" ("address");
-
-ALTER TABLE "exams" ADD FOREIGN KEY ("teacher") REFERENCES "teachers" ("full_name");
-
-ALTER TABLE "exams" ADD FOREIGN KEY ("student") REFERENCES "students" ("full_name");
-
-ALTER TABLE "exams" ADD FOREIGN KEY ("grade") REFERENCES "grades" ("grade");
-
-ALTER TABLE "groups" ADD FOREIGN KEY ("course") REFERENCES "courses" ("course_name");
-
-ALTER TABLE "independent_tasks" ADD FOREIGN KEY ("classroom") REFERENCES "classrooms" ("class_number");
-
-ALTER TABLE "independent_tasks" ADD FOREIGN KEY ("buliding") REFERENCES "buildings" ("address");
-
-ALTER TABLE "independent_tasks" ADD FOREIGN KEY ("teacher") REFERENCES "teachers" ("full_name");
-
-ALTER TABLE "independent_tasks" ADD FOREIGN KEY ("student") REFERENCES "students" ("full_name");
-
-ALTER TABLE "independent_tasks" ADD FOREIGN KEY ("grade") REFERENCES "grades" ("grade");
-
-ALTER TABLE "schedules" ADD FOREIGN KEY ("semester") REFERENCES "semesters" ("semester");
-
-ALTER TABLE "schedules" ADD FOREIGN KEY ("group") REFERENCES "groups" ("group_name");
-
-ALTER TABLE "schedules" ADD FOREIGN KEY ("exam") REFERENCES "exams" ("subject");
-
-ALTER TABLE "semesters" ADD FOREIGN KEY ("training_program") REFERENCES "training_programs" ("training_program");
-
-ALTER TABLE "students" ADD FOREIGN KEY ("group") REFERENCES "groups" ("group_name");
-
-ALTER TABLE "training_programs" ADD FOREIGN KEY ("curriculum") REFERENCES "curriculums" ("curriculum_name");
+ALTER TABLE "students" ADD FOREIGN KEY ("group") REFERENCES "groups" ("name");
