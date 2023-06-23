@@ -19,12 +19,14 @@ services:
     restart: always
     ports:
       - 5432
-    environment:
-      POSTGRES_DB: university_management_db
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      # volumes:
-      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - config/.env
+    # environment:
+    #   POSTGRES_DB: university_management_db
+    #   POSTGRES_USER: admin
+    #   POSTGRES_PASSWORD: admin
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   adminer:
     image: adminer
