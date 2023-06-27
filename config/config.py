@@ -13,9 +13,9 @@ config = dotenv_values(path_to_env)
 # config["MZ_USER"] = config["MZ_USER"].replace('@','%40')
 
 # Create Data Source Name (DSN) string, including Materialize cluster the query will run on
-MY_DSN_STRING = f'''postgresql://{config["POSTGRES_USER"]}:{config["POSTGRES_PASSWORD"]}@db:5432/{config["POSTGRES_DB"]}'''
+MY_DSN_STRING = f"""postgresql://{config["POSTGRES_USER"]}:{config["POSTGRES_PASSWORD"]}@db:5432/{config["POSTGRES_DB"]}"""
 # MY_DSN_STRING = "postgresql://postgres:postgres@localhost/postgres"
 
-if __name__=="__main__":
+if __name__ == "__main__":
     print(config)
     print(MY_DSN_STRING)
