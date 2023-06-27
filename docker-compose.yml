@@ -22,7 +22,7 @@ services:
     env_file:
       - config/.env
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./dump_data.sql:/docker-entrypoint-initdb.d/init.sql
 
   adminer:
     image: adminer
