@@ -14,11 +14,11 @@
 
   - [x] Удалить задание для самостоятельной работы, которое было создано более года назад.
 
-        DELETE FROM independent_tasks WHERE created_at < current_timestamp - INTERVAL '1year';
+        DELETE FROM independent_tasks WHERE created_at < NOW() - INTERVAL '1year';
 
   - [x] Добавить новый семестр в учебный год.
 
-        INSERT INTO "semesters" ("semester", "academic_yaer", "created_at") VALUES ('2', '2023', now());
+        INSERT INTO "semesters" ("semester", "academic_yaer") VALUES ('2', '2023');
   
   - [x] Выбрать всех преподавателей, которые преподают в здании №3.
 
@@ -42,10 +42,10 @@
   - [x] POST /grades - создать новую оценку для студента по курсу.
   - [x] PUT /grades/{grade_id} - обновить оценку студента по курсу.
 - [ ] Загрузить на GitHub
-- [ ] [0/3] README.md
-  - [ ] Описание проекта
-  - [ ] Инструкции по установке и запуску вашего приложения
-  - [ ] Инструкции по использованию API (swagger?)
+- [x] [0/3] README.md
+  - [x] Описание проекта
+  - [x] Инструкции по установке и запуску вашего приложения
+  - [x] Инструкции по использованию API (swagger?)
 
 
 
@@ -57,9 +57,9 @@
 <div class="termy">
 
 ```console
-$ Git clone <link>
+$ git clone <link>
 $ cd university_management_system
-$ docker build . && docker compose run -d
+$ docker build -t unversity_management_system . && docker compose up
 ```
 
 </div>
@@ -67,6 +67,4 @@ $ docker build . && docker compose run -d
 ## Interactive API documentation and exploration web user interfaces:
 
 <http://127.0.0.1:8000/docs>
-
-
 
