@@ -92,3 +92,26 @@ $ docker build -t unversity_management_system . && docker compose up
 ###    Redoc
 
 <http://127.0.0.1:8000/redoc>
+
+
+## Реализация запрсосв
+
+ Выбрать всех студентов, обучающихся на курсе "Математика".
+
+      SELECT student FROM courses WHERE name = 'math';
+
+Удалить задание для самостоятельной работы, которое было создано более года назад.
+
+      DELETE FROM independent_tasks WHERE created_at < NOW() - INTERVAL '1year';
+
+Добавить новый семестр в учебный год.
+
+      INSERT INTO "semesters" ("semester", "academic_yaer") VALUES ('2', '2023');
+
+Выбрать всех преподавателей, которые преподают в здании №3.
+
+      SELECT teacher FROM courses WHERE classroom IN(SELECT id FROM classrooms WHERE building = '3');
+
+Обновить оценку студента по курсу.
+
+      UPDATE "courses" SET "grade" = '4' WHERE "id" = '2';
