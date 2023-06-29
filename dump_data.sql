@@ -33,6 +33,7 @@ COPY public.buildings (id, address, created_at) FROM stdin;
 COPY public.classrooms (id, created_at, class_number, building) FROM stdin;
 1	2023-06-27 15:40:07.974717	1	3
 2	2023-06-27 15:40:07.974717	2	3
+34	2023-06-29 08:21:35.414337	1	23
 \.
 
 
@@ -62,10 +63,11 @@ COPY public.departments (id, name, facult, created_at) FROM stdin;
 -- Data for Name: grades; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.grades (id, grade) FROM stdin;
-1	4
-2	5
-3	3
+COPY public.grades (id, grade, created_at) FROM stdin;
+1	4	2023-06-28 10:00:33.891514
+2	5	2023-06-28 10:00:33.891514
+3	3	2023-06-28 10:00:33.891514
+34	2	2023-06-28 10:00:55.628346
 \.
 
 
@@ -99,6 +101,7 @@ COPY public.students (id, full_name, group_name, created_at) FROM stdin;
 COPY public.teachers (id, full_name, created_at) FROM stdin;
 1	teacher1	2023-06-27 15:40:08.041371
 2	teacher2	2023-06-27 15:40:08.041371
+34	teacher3	2023-06-29 08:23:12.376225
 \.
 
 
@@ -107,8 +110,11 @@ COPY public.teachers (id, full_name, created_at) FROM stdin;
 --
 
 COPY public.courses (id, created_at, name, teacher, student, grade, classroom) FROM stdin;
-1	2023-06-27 15:40:08.052467	course1	teacher1	student2	\N	\N
-2	2023-06-27 15:40:08.052467	course2	teacher2	student3	4	\N
+2	2023-06-27 15:40:08.052467	course2	teacher2	student3	4	1
+1	2023-06-27 15:40:08.052467	course1	teacher1	student2	4	34
+34	2023-06-29 07:59:30.132784	course2	teacher3	student2	5	2
+35	2023-06-29 08:31:17.408975	математика	teacher1	student2	3	1
+36	2023-06-29 08:32:08.532641	математика	teacher1	student3	4	1
 \.
 
 
@@ -117,6 +123,8 @@ COPY public.courses (id, created_at, name, teacher, student, grade, classroom) F
 --
 
 COPY public.semesters (id, semester, academic_yaer, created_at) FROM stdin;
+1	2	2023	2023-06-29 08:26:11.053457
+3	1	2023	2023-06-29 08:26:52.614827
 \.
 
 
@@ -141,6 +149,9 @@ COPY public.exams (id, course, classroom, student, grade, exam_datetime, created
 --
 
 COPY public.independent_tasks (id, independent_task, student, grade, created_at) FROM stdin;
+1	task1	student2	3	2023-06-29 08:27:54.757617
+4	task3	student3	5	2023-06-29 08:28:31.424636
+5	task2	student3	5	2021-06-29 08:29:26.02224
 \.
 
 
@@ -156,7 +167,7 @@ COPY public.schedules (id, schedule, semester, exam, course, group_name, classro
 -- Data for Name: training_programs; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.training_programs (id, name, course, independent_tasks, exam) FROM stdin;
+COPY public.training_programs (id, name, course, independent_tasks, exam, created_at) FROM stdin;
 \.
 
 
@@ -171,14 +182,14 @@ SELECT pg_catalog.setval('public.buildings_id_seq', 33, true);
 -- Name: classrooms_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.classrooms_id_seq', 33, true);
+SELECT pg_catalog.setval('public.classrooms_id_seq', 34, true);
 
 
 --
 -- Name: courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.courses_id_seq', 33, true);
+SELECT pg_catalog.setval('public.courses_id_seq', 36, true);
 
 
 --
@@ -213,7 +224,7 @@ SELECT pg_catalog.setval('public.faculties_id_seq', 33, true);
 -- Name: grades_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.grades_id_seq', 33, true);
+SELECT pg_catalog.setval('public.grades_id_seq', 34, true);
 
 
 --
@@ -227,7 +238,7 @@ SELECT pg_catalog.setval('public.groups_id_seq', 33, true);
 -- Name: independent_tasks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.independent_tasks_id_seq', 1, false);
+SELECT pg_catalog.setval('public.independent_tasks_id_seq', 5, true);
 
 
 --
@@ -241,7 +252,7 @@ SELECT pg_catalog.setval('public.schedules_id_seq', 1, false);
 -- Name: semesters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.semesters_id_seq', 1, false);
+SELECT pg_catalog.setval('public.semesters_id_seq', 3, true);
 
 
 --
@@ -255,7 +266,7 @@ SELECT pg_catalog.setval('public.students_id_seq', 33, true);
 -- Name: teachers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.teachers_id_seq', 33, true);
+SELECT pg_catalog.setval('public.teachers_id_seq', 34, true);
 
 
 --
