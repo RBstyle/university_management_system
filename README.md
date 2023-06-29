@@ -94,11 +94,11 @@ $ docker build -t unversity_management_system . && docker compose up
 <http://127.0.0.1:8000/redoc>
 
 
-## Реализация запрсосв
+## Реализация запрсосв (содержатся в test_queries.sql)
 
  Выбрать всех студентов, обучающихся на курсе "Математика".
 
-      SELECT student FROM courses WHERE name = 'math';
+      SELECT students.* FROM courses INNER JOIN students ON name = 'математика' WHERE student = full_name;
 
 Удалить задание для самостоятельной работы, которое было создано более года назад.
 
@@ -106,12 +106,12 @@ $ docker build -t unversity_management_system . && docker compose up
 
 Добавить новый семестр в учебный год.
 
-      INSERT INTO "semesters" ("semester", "academic_yaer") VALUES ('2', '2023');
+      INSERT INTO semesters (semester, academic_yaer) VALUES ('3', '2023');
 
 Выбрать всех преподавателей, которые преподают в здании №3.
 
-      SELECT teacher FROM courses WHERE classroom IN(SELECT id FROM classrooms WHERE building = '3');
+      SELECT DISTINCT teachers.* FROM courses INNER JOIN teachers ON classroom IN (SELECT id FROM classrooms WHERE building = '3') WHERE teacher = full_name;
 
 Обновить оценку студента по курсу.
 
-      UPDATE "courses" SET "grade" = '4' WHERE "id" = '2';
+      UPDATE courses SET grade = 3 WHERE name = 'course2' AND student = 'student2';

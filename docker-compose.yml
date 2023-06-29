@@ -24,6 +24,7 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/1_init_schema.sql
       - ./dump_data.sql:/docker-entrypoint-initdb.d/2_init_data.sql
+      - ./test_queries.sql:/test_queries.sql
 
   adminer:
     image: adminer
