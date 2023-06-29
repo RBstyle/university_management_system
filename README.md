@@ -1,59 +1,78 @@
-# university_management_system
+#  **Система управления университетом**
 
+### *Это система, где учитываются студенты, преподаватели, курсы, группы, отделения университета, оценки и другие соответствующие данные.*
 
+---
+## Сиситема содержит следующие сущности:
+<br>
+Таблицы:
 
-# TODO [0/10] План выполнения
-- [x] Структура базы данных
-- [x] ER диаграмма https://dbdiagram.io/d/6495d77d02bd1c4a5efaac17
-- [x] SQL скрипт
-- [ ] Краткое описание каждой сущности и ее свойств
-- [x] [0/5] Реализация запросов
-  - [x] Выбрать всех студентов, обучающихся на курсе "Математика".
+1. `students` - Студенты, обучающиеся в университете
+   - ***full_name*** - Полное имя студента
+   - ***group_name*** - Название группы, в которой учится студент (связь с таблицей `groups`)
+2. `teachers` - Преподавтели
+   - ***full_name*** - Полное имя преподавателя
+3. `courses` - Курсы(предметы)
+   - ***name*** - Название курса(предмета)
+   - ***teacher*** - Пераодаватель,который ведет данный предмет (связь с таблицей `teachers`)
+   - ***student*** - Студент (связь с таблицей `students`)
+   - ***grade*** - Оценка студента по курсу(предмету)
+   - ***classroom*** - Аудитория, в которой преподается данный крус
+4. `groups` - Учебные группы
+    - ***name*** - Название учебной группы
+    - ***department*** - Отделение, к которому относится группа
+5. `departments` - Отделение(специализация)
+      - ***name*** -Название отделения(специализации)
+      - ***facult***  - Факультет, к которому относится отделение(специализация)
+6. `grades` - Оценки
+    - ***grade*** - Оценка
+7. `schedules` - Расписания
+   - ***schedule*** - Название единицы расписания
+   - ***semester*** - Семестр
+   - ***exam*** - Эказамен
+   - ***course*** - Курс(предмет)
+   - ***group_name*** - Название группы
+   - ***classroom*** - Аудитория    
+8. `buildings` - Здания
+   - ***address*** - Номер здания
+9.  `classrooms` - Аудитории
+    - ***class_number*** - Номер аудитории
+    - ***building*** - Номер здания, в котором находится аудитория
+10. `semesters` - Семестры
+    - ***semester*** - Семестр
+    - **academic_yaer** - Учебный год
+11. `faculties` - Факультеты
+    - ***name*** - Название факультета
+12. `exams` - Экзамены
+    - ***course*** - Куср(пердмет)
+    - ***classroom*** - Аудитория
+    - ***student*** - Студент
+    - ***grade*** - Оценка
+    - ***exam_datetime*** - Дата и время экзамена
+13. `independent_tasks` - Задания для самостоятельной работы
+    - ***independent_task*** - Задание
+    - ***student*** - Студент
+    - ***grade*** - Оценка
+14. `training_programs` - Программы курса
+    - ***name*** - Название программы
+    - ***course*** - Курс(предмет)
+    - ***independent_tasks*** - Индивидуальные занятия
+    - ***exam*** - Экзамен
+15. `curriculums` - Учебные планы
+    - ***name*** - Название учебного плана
+    - ***courses*** - Предметы
+    - ***semester*** - Семестр
+    - ***course_duration*** - Продолжительность куса
 
-        SELECT student FROM courses WHERE name = 'math';
+Все таблицы имеют слудющие поля:
+  - `id` - ID объекта
+  - `created_at` - время создания записи
 
-  - [x] Удалить задание для самостоятельной работы, которое было создано более года назад.
+<br>
+<br>
+---
 
-        DELETE FROM independent_tasks WHERE created_at < NOW() - INTERVAL '1year';
-
-  - [x] Добавить новый семестр в учебный год.
-
-        INSERT INTO "semesters" ("semester", "academic_yaer") VALUES ('2', '2023');
-  
-  - [x] Выбрать всех преподавателей, которые преподают в здании №3.
-
-        SELECT teacher FROM courses WHERE classroom IN(SELECT id FROM classrooms WHERE building = '3');
-
-  - [x] Обновить оценку студента по курсу.
-
-        UPDATE "courses" SET "grade" = '4' WHERE "id" = '2';
-
-- [x] Каркас FastAPI приложения
-- [x] Соединение FastAPI приложения с БД
-- [x] [10/10] Реализация API
-  - [x] POST /students - создать нового студента.
-  - [x] GET /students/{student_id} - получить информацию о студенте по его id.
-  - [x] PUT /students/{student_id} - обновить информацию о студенте по его id.
-  - [x] DELETE /students/{student_id} - удалить студента по его id.
-  - [x] GET /teachers - получить список всех преподавателей.
-  - [x] POST /courses - создать новый курс.
-  - [x] GET /courses/{course_id} - получить информацию о курсе по его id.
-  - [x] GET /courses/{course_id}/students - получить список всех студентов на курсе.
-  - [x] POST /grades - создать новую оценку для студента по курсу.
-  - [x] PUT /grades/{grade_id} - обновить оценку студента по курсу.
-- [ ] Загрузить на GitHub
-- [x] [0/3] README.md
-  - [x] Описание проекта
-  - [x] Инструкции по установке и запуску вашего приложения
-  - [x] Инструкции по использованию API (swagger?)
-
-
-
-#  **University management system**
-
-*This is a system that takes into account students, teachers, courses, groups, university departments, grades and other data.*
-
-## Install:
+## Установка:
 <div class="termy">
 
 ```console
@@ -64,7 +83,12 @@ $ docker build -t unversity_management_system . && docker compose up
 
 </div>
 
-## Interactive API documentation and exploration web user interfaces:
+## Интерактивная документация API.
+
+### Swagger
 
 <http://127.0.0.1:8000/docs>
 
+###    Redoc
+
+<http://127.0.0.1:8000/redoc>

@@ -7,62 +7,84 @@ from university_management import queries
 tags_metadata = [
     {
         "name": "students",
-        "description": "Operations with students.",
+        "description": "Действия над студентами.",
     },
     {
         "name": "teachers",
-        "description": "Operations with teachers.",
+        "description": "Здесь можно получить список всех преподавателей.",
     },
     {
         "name": "courses",
-        "description": "Operations with courses.",
+        "description": "Действия над курсами(предметами).",
     },
     {
         "name": "grades",
-        "description": "Operations with grades.",
+        "description": "Изменение или добавление оценок.",
     },
 ]
 
 description = """
-This is a system that takes into account students, teachers, courses, groups, university departments, grades and other data.
-
+Это система, где учитываются студенты, преподаватели, курсы, группы, отделения университета, оценки и другие соответствующие данные.
 
 ## students
 
-You will be able to:
+Студенты.\n
 
-* **Get a list of students**
-* **Add new student**
-* **Get student by ID**
-* **Edit student information**
-* **Delete student**
+| Поле | Описание |
+|------|----------|
+|  id* | ID студента (integer) |
+| full_name* | Полное имя студента (string) |
+| group_name* | Название группы, в которой учится студент (string) |
+| created_at* | Время создания записи (timestamp) |
 
+\* - обязательные поля
 
 ## teachers
 
-You can get a list of teachers.
+Преподаватели.\n
 
+| Поле | Описание |
+|------|----------|
+|  id* | ID преподавателя (integer) |
+| full_name* | Полное имя преподавателя (string) |
+| created_at* | Время создания записи (timestamp) |
+
+\* - обязательные поля
 
 ## courses
 
-You will be able to:
+Курсы(предметы).\n
 
-* **Add new course**
-* **Get course by ID**
-* **Get a list of all students in the course**
+| Поле | Описание |
+|------|----------|
+|  id* | ID курса (integer) |
+| created_at* | Время создания записи (timestamp) |
+| name* | Название курса(предмета) (string) |
+| teacher* | Преподаватель по курсу(предмету) (string) |
+| student* | Студент (string) |
+| grade | Оценка (integer) |
+| classroom* | Аудитория (integer) |
+
+\* - обязательные поля
 
 ## grades
 
-You will be able to:
+Оценки.\n
 
-* **Add new grade**
-* **Edit grade**
+| Поле | Описание |
+|------|----------|
+|  id* | ID оценки (integer) |
+| grade* | Оценка (integer) |
+| created_at* | Время создания записи (timestamp) |
+
+\* - обязательные поля
 
 """
 app = FastAPI(
-    title="University management system",
+    title="Система управления университетом",
     description=description,
     version="0.0.1",
+    openapi_tags=tags_metadata,
 )
 
 
@@ -80,25 +102,25 @@ async def close_pool():
 
 @app.get("/", tags=["students"])
 async def index():
-    """Get a list of students"""
+    """Получить список всех студентов"""
     return await queries.students_list(app.state.pool)
 
 
 @app.post("/students/", tags=["students"])
 async def post_student(student: queries.BaseStudent):
-    """Add a new student"""
+    """Добавить нового студента"""
     return await queries.add_student(pool=app.state.pool, student=student)
 
 
 @app.get("/students/{student_id}", tags=["students"])
 async def get_student(student_id: int):
-    """Get a student by ID"""
+    """Получить информацию о студенте по ID"""
     return await queries.get_student(pool=app.state.pool, student_id=student_id)
 
 
 @app.put("/students/{student_id}", tags=["students"])
 async def put_student(student_id: int, student: queries.BaseStudent):
-    """Edit student information"""
+    """Редактировать информацию о студенте"""
     return await queries.put_student(
         pool=app.state.pool, student_id=student_id, student=student
     )
@@ -106,31 +128,31 @@ async def put_student(student_id: int, student: queries.BaseStudent):
 
 @app.delete("/students/{student_id}", tags=["students"])
 async def delete_student(student_id: int):
-    """Delete student"""
+    """Удалить студента"""
     return await queries.delete_student(pool=app.state.pool, student_id=student_id)
 
 
 @app.get("/teachers/", tags=["teachers"])
 async def get_teachers():
-    """Get a list of teachers"""
+    """Получить списко всех преподавателей"""
     return await queries.teachers_list(app.state.pool)
 
 
 @app.post("/courses/", tags=["courses"])
 async def post_course(course: queries.BaseCourse):
-    """Add new course"""
+    """Добавить новый курс(предмет)"""
     return await queries.add_course(pool=app.state.pool, course=course)
 
 
 @app.get("/courses/{course_id}", tags=["courses"])
 async def get_course(course_id: int):
-    """Get course by ID"""
+    """Получить курс(предмет) по ID"""
     return await queries.get_course_by_id(pool=app.state.pool, course_id=course_id)
 
 
 @app.get("/courses/{course_id}/students", tags=["courses"])
 async def get_students_by_course(course_id: int):
-    """Get a list of all students in the course"""
+    """Получить список всех студентов, обучающихся по курсу(предмету)"""
     return await queries.students_by_course_list(
         pool=app.state.pool, course_id=course_id
     )
@@ -138,11 +160,11 @@ async def get_students_by_course(course_id: int):
 
 @app.post("/grades/", tags=["grades"])
 async def post_grade(grade: queries.BaseGrade):
-    """Add new grade"""
+    """Добавить новую оценку"""
     return await queries.add_grade(pool=app.state.pool, grade=grade)
 
 
 @app.put("/grades/{grade_id}", tags=["grades"])
 async def put_grade(grade_id: int, grade: queries.BaseGrade):
-    """Edit grade"""
+    """Редактировать оценку"""
     return await queries.put_grade(pool=app.state.pool, grade_id=grade_id, grade=grade)

@@ -1,6 +1,8 @@
-from psycopg_pool import AsyncConnectionPool
-from pydantic import BaseModel, Field
 from datetime import datetime
+
+from pydantic import BaseModel
+
+from psycopg_pool import AsyncConnectionPool
 from psycopg.rows import class_row
 
 
@@ -11,6 +13,7 @@ class BaseStudent(BaseModel):
 
 class Student(BaseStudent):
     id: int
+    created_at: datetime
 
 
 class BaseTeacher(BaseModel):
@@ -19,6 +22,7 @@ class BaseTeacher(BaseModel):
 
 class Teacher(BaseTeacher):
     id: int
+    created_at: datetime
 
 
 class BaseGrade(BaseModel):
@@ -27,6 +31,7 @@ class BaseGrade(BaseModel):
 
 class Grade(BaseGrade):
     id: int
+    created_at: datetime
 
 
 class BaseCourse(BaseModel):
@@ -38,6 +43,7 @@ class BaseCourse(BaseModel):
 
 class Course(BaseCourse):
     id: int
+    created_at: datetime
 
 
 async def students_list(pool: AsyncConnectionPool):
@@ -57,6 +63,7 @@ async def add_student(pool: AsyncConnectionPool, student: Student):
                     group_name=student.group_name,
                 )
             )
+        async with conn.cursor(row_factory=class_row(Student)) as cur:
             await cur.execute("SELECT * FROM students")
             rows = await cur.fetchall()
             return rows
@@ -84,6 +91,7 @@ async def put_student(pool: AsyncConnectionPool, student_id: int, student: Stude
                     student_id=student_id,
                 )
             )
+        async with conn.cursor(row_factory=class_row(Student)) as cur:
             await cur.execute("SELECT * FROM students")
             rows = await cur.fetchall()
             return rows
@@ -111,7 +119,6 @@ async def teachers_list(pool: AsyncConnectionPool):
 
 
 async def add_course(pool: AsyncConnectionPool, course: Course):
-    """Didn`t work"""
     async with pool.connection() as conn:
         async with conn.cursor(row_factory=class_row(BaseCourse)) as cur:
             await cur.execute(
@@ -122,6 +129,7 @@ async def add_course(pool: AsyncConnectionPool, course: Course):
                     grade=course.grade if course.grade else "null",
                 )
             )
+        async with conn.cursor(row_factory=class_row(Course)) as cur:
             await cur.execute("SELECT * FROM courses")
             rows = await cur.fetchall()
             return rows
@@ -159,6 +167,7 @@ async def add_grade(pool: AsyncConnectionPool, grade: Grade):
                     grade=grade.grade,
                 )
             )
+        async with conn.cursor(row_factory=class_row(Grade)) as cur:
             await cur.execute("SELECT * FROM grades")
             rows = await cur.fetchall()
             return rows
@@ -173,6 +182,7 @@ async def put_grade(pool: AsyncConnectionPool, grade_id: int, grade: Grade):
                     grade_id=grade_id,
                 )
             )
+        async with conn.cursor(row_factory=class_row(Grade)) as cur:
             await cur.execute("SELECT * FROM grades")
             rows = await cur.fetchall()
             return rows
