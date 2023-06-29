@@ -94,7 +94,7 @@ $ docker build -t unversity_management_system . && docker compose up
 <http://127.0.0.1:8000/redoc>
 
 
-## Реализация запрсосв (содержатся в test_queries.sql)
+## Реализация запрсосв (содержатся в ./database/test_queries.sql)
 
  Выбрать всех студентов, обучающихся на курсе "Математика".
 
