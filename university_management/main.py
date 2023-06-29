@@ -2,89 +2,13 @@ from fastapi import FastAPI
 from psycopg_pool import AsyncConnectionPool
 
 from config.config import MY_DSN_STRING
-from university_management import queries
+from university_management import queries, swagger_vars
 
-tags_metadata = [
-    {
-        "name": "students",
-        "description": "Действия над студентами.",
-    },
-    {
-        "name": "teachers",
-        "description": "Здесь можно получить список всех преподавателей.",
-    },
-    {
-        "name": "courses",
-        "description": "Действия над курсами(предметами).",
-    },
-    {
-        "name": "grades",
-        "description": "Изменение или добавление оценок.",
-    },
-]
-
-description = """
-Это система, где учитываются студенты, преподаватели, курсы, группы, отделения университета, оценки и другие соответствующие данные.
-
-## students
-
-Студенты.\n
-
-| Поле | Описание |
-|------|----------|
-|  id* | ID студента (integer) |
-| full_name* | Полное имя студента (string) |
-| group_name* | Название группы, в которой учится студент (string) |
-| created_at* | Время создания записи (timestamp) |
-
-\* - обязательные поля
-
-## teachers
-
-Преподаватели.\n
-
-| Поле | Описание |
-|------|----------|
-|  id* | ID преподавателя (integer) |
-| full_name* | Полное имя преподавателя (string) |
-| created_at* | Время создания записи (timestamp) |
-
-\* - обязательные поля
-
-## courses
-
-Курсы(предметы).\n
-
-| Поле | Описание |
-|------|----------|
-|  id* | ID курса (integer) |
-| created_at* | Время создания записи (timestamp) |
-| name* | Название курса(предмета) (string) |
-| teacher* | Преподаватель по курсу(предмету) (string) |
-| student* | Студент (string) |
-| grade | Оценка (integer) |
-| classroom* | Аудитория (integer) |
-
-\* - обязательные поля
-
-## grades
-
-Оценки.\n
-
-| Поле | Описание |
-|------|----------|
-|  id* | ID оценки (integer) |
-| grade* | Оценка (integer) |
-| created_at* | Время создания записи (timestamp) |
-
-\* - обязательные поля
-
-"""
 app = FastAPI(
     title="Система управления университетом",
-    description=description,
+    description=swagger_vars.description,
     version="0.0.1",
-    openapi_tags=tags_metadata,
+    openapi_tags=swagger_vars.tags_metadata,
 )
 
 

@@ -1,49 +1,15 @@
-from datetime import datetime
-
-from pydantic import BaseModel
-
 from psycopg_pool import AsyncConnectionPool
 from psycopg.rows import class_row
 
-
-class BaseStudent(BaseModel):
-    full_name: str
-    group_name: str
-
-
-class Student(BaseStudent):
-    id: int
-    created_at: datetime
-
-
-class BaseTeacher(BaseModel):
-    full_name: str
-
-
-class Teacher(BaseTeacher):
-    id: int
-    created_at: datetime
-
-
-class BaseGrade(BaseModel):
-    grade: int
-
-
-class Grade(BaseGrade):
-    id: int
-    created_at: datetime
-
-
-class BaseCourse(BaseModel):
-    name: str
-    teacher: str
-    student: str
-    grade: int | None = None
-
-
-class Course(BaseCourse):
-    id: int
-    created_at: datetime
+from university_management.schema import (
+    Student,
+    BaseStudent,
+    Teacher,
+    Course,
+    BaseCourse,
+    Grade,
+    BaseGrade,
+)
 
 
 async def students_list(pool: AsyncConnectionPool):
