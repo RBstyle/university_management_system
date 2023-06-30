@@ -76,7 +76,7 @@
 <div class="termy">
 
 ```console
-$ git clone <link>
+$ git clone git@github.com:RBstyle/university_management_system.git
 $ cd university_management_system
 $ docker build -t unversity_management_system . && docker compose up
 ```
