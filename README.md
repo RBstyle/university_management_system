@@ -76,7 +76,7 @@
 <div class="termy">
 
 ```console
-$ git clone <link>
+$ git clone git@github.com:RBstyle/university_management_system.git
 $ cd university_management_system
 $ docker build -t unversity_management_system . && docker compose up
 ```
@@ -95,23 +95,31 @@ $ docker build -t unversity_management_system . && docker compose up
 
 
 ## Реализация запрсосв (содержатся в ./database/test_queries.sql)
+<br>
+
+Запуск проверки запросов:
+```bash
+$ docker exec -it <container> psql -U admin -d university_management_db -a -f test_queries.sql
+```
+<br>
 
  Выбрать всех студентов, обучающихся на курсе "Математика".
-
-      SELECT students.* FROM courses INNER JOIN students ON name = 'математика' WHERE student = full_name;
-
+```sql
+SELECT students.* FROM courses INNER JOIN students ON name = 'математика' WHERE student = full_name;
+```
 Удалить задание для самостоятельной работы, которое было создано более года назад.
-
-      DELETE FROM independent_tasks WHERE created_at < NOW() - INTERVAL '1year';
-
+```sql
+DELETE FROM independent_tasks WHERE created_at < NOW() - INTERVAL '1year';
+```
 Добавить новый семестр в учебный год.
-
-      INSERT INTO semesters (semester, academic_yaer) VALUES ('3', '2023');
-
+```sql
+INSERT INTO semesters (semester, academic_yaer) VALUES ('3', '2023');
+```
 Выбрать всех преподавателей, которые преподают в здании №3.
-
-      SELECT DISTINCT teachers.* FROM courses INNER JOIN teachers ON classroom IN (SELECT id FROM classrooms WHERE building = '3') WHERE teacher = full_name;
-
+```sql
+SELECT DISTINCT teachers.* FROM courses INNER JOIN teachers ON classroom IN (SELECT id FROM classrooms WHERE building = '3') WHERE teacher = full_name;
+```
 Обновить оценку студента по курсу.
-
-      UPDATE courses SET grade = 3 WHERE name = 'course2' AND student = 'student2';
+```sql
+UPDATE courses SET grade = 3 WHERE name = 'course2' AND student = 'student2';
+```
