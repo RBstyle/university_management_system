@@ -1,7 +1,7 @@
 from dotenv import dotenv_values
 from pathlib import Path
 
-path_to_env = Path(__file__).parent.absolute() / ".env"
+path_to_env = Path(__file__).parent.parent.absolute() / ".env"
 # Load values from .env file into config dictionary.
 # See example.env for what variables you need to define.
 config = dotenv_values(path_to_env)

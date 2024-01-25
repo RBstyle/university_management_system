@@ -9,7 +9,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DATABASE_URL=postgresql://admin:admin@db:5432/university_management_db
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
       - db
       - adminer
@@ -20,7 +20,7 @@ services:
     ports:
       - 5432
     env_file:
-      - config/.env
+      - .env
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/1_init_schema.sql
       - ./database/dump_data.sql:/docker-entrypoint-initdb.d/2_init_data.sql
